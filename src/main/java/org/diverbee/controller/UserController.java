@@ -6,11 +6,10 @@ import org.diverbee.pojo.User;
 import org.diverbee.service.UserService;
 import org.diverbee.utils.JwtUtil;
 import org.diverbee.utils.Md5Util;
+import org.diverbee.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,5 +51,18 @@ public class UserController {
             String token = JwtUtil.genToken(claims);
             return Result.success(token);
         }
+    }
+
+    @GetMapping("/userInfo")
+    public Result<User> userInfo(/*@RequestHeader(name = "Authorization") String token*/){
+//        Map<String,Object> claims = JwtUtil.parseToken(token);
+
+        Map<String,Object> claims = ThreadLocalUtil.get();
+
+        String name =(String) claims.get("username");
+
+        User user = userService.findByUserName(name);
+        return Result.success(user);
+
     }
 }
