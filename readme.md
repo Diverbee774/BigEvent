@@ -6,3 +6,7 @@
 
 
 
+## 部署过程
+在application yml中配置 mysql和redis的数据源
+在阿里云开通oss
+在src/main/java/org/diverbee/utils/AliOssUtil.java 填入阿里云oss的相关信息
